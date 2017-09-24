@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #fff;">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>牛币计划-</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = clientWidth / 7.5 + 'px';
+                };
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body style="background: #fff;">
+<section class="loginHeader">
+    <div class="loginTitle"></div>
+    <span class="loginsmallTitle">好友邀您与资深投资顾问一对一畅谈股市</span>
+</section>
+<section class="loginCont">
+    <span class="loginContText">输入手机号验证成功，下载APP领取牛股</span>
+    <ul class="loginContList">
+        <li><input type="tel" maxlength="11" name="phone" id="phone" class="phone" placeholder="请输入手机号"></li>
+        <li>
+            <input type="text"  name="codeNum" id="codeNum" class="codeNum" placeholder="请输入验证码">
+            <a class="btncodeNum again" id="getRecode"><font id="phonetext">获取验证码</font><font id="phoneCodeSent" color="#d44032"></font></a>
+        </li>
+    </ul>
+    <span class="protocol"><i></i><em>阅读并确认</em><a href="javascript:void(0)" style="color: #000">《用户注册协议》</a></span>
+    <a href="#" class="confirmblut disable">确认</a>
+</section>
+</body>
+</html>

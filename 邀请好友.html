@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>牛币计划-</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = clientWidth / 7.5 + 'px';
+                };
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+<header class="headerBar whiteStyle">
+    <span><a href="javascript:void(0);" class="goBack"></a></span>
+    <span class="title">邀请好友</span>
+    <span class="explain">获得记录</span>
+</header>
+<section class="header">
+    <h1 class="HeadNum">1,888<small>个</small></h1>
+    <span class="HeadIcon">获得牛币<i></i></span>
+</section>
+<section class="menu_invite">
+    <span><em class="inviteNumber">5,001</em><em class="inviteText">注册好友(个)</em></span>
+    <span><em class="inviteNumber">2,993</em><em class="inviteText">好友订阅服务(笔)</em></span>
+</section>
+<section class="inviteWay">
+    <div class="inviteWayTitle"><span>邀请方式</span></div>
+    <div class="inviteWayShare">
+        <span>
+            <em class="icon_WeChat"></em>
+            <em class="inviteWayText">分享给好友</em>
+        </span>
+        <span>
+            <em class="icon_friendster"></em>
+            <em class="inviteWayText">分享到朋友圈</em>
+        </span>
+        <span>
+            <em class="icon_code" id="icon_code"></em>
+            <em class="inviteWayText">面对面扫描</em>
+        </span>
+    </div>
+    <div class="inviteRule">
+        <span class="inviteRuleTitle">邀请获得牛币规则</span>
+        <ul class="inviteRuleList">
+            <li>1.朋友注册成功获得500个牛币；</li>
+            <li>2.朋友成功交易第一笔可获得1000个牛币；</li>
+            <li>3.更多获取方法敬请期待...</li>
+        </ul>
+    </div>
+</section>
+<div class="pop_box">
+    <div class="pop_shade">
+        <div class="pop_section">
+            <div class="pop_child">
+                <div class="codeImg"><img src="images/code.png" alt=""></div>
+                <span class="codeText">请朋友扫描二维码<br>通过手机浏览器打开</span>
+                <a href="javascript:void(0)" class="pop_closedstyle pop_closed" onclick="colsedpop(this)">关闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#icon_code').click(function(){
+            $('.pop_box').show();
+        })
+    })
+    function colsedpop (obj){
+        $(obj).parents('.pop_box').hide()
+    }
+</script>
+</body>
+</html>

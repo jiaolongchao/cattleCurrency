@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #fff">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>牛币计划-</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = clientWidth / 7.5 + 'px';
+                };
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body style="background: #fff">
+<header class="headerBar">
+    <span><a href="javascript:void(0);" class="goBack"></a></span>
+    <span class="title">牛币使用帮助</span>
+    <span class="explain"></span>
+</header>
+<section class="helpText">
+    <dl class="helpTextList">
+        <dt>1. 牛币有多值钱？</dt>
+        <dd>牛币在当做现金使用时10牛币等于1元人民币。</dd>
+        <dt>2. 牛币有什么作用？</dt>
+        <dd>购买服务时每1000个牛币可当做100元人民币使用，每个产品可使用牛币的数量有所区别，牛币不足1000部分不能单独使用哦！</dd>
+        <dd>牛币仅限平台内部使用，不得充值提现； </dd>
+        <dt>3. 如何获得牛币？</dt>
+        <dd>注册即获得500牛币；</dd>
+        <dd>购买服务也可获得相应牛币，偷偷告诉你购买金额越大获得牛币越多哦！</dd>
+        <dd>邀请好友注册成功即获500牛币，请在“用户中心-邀请好友”功能中发送邀请；</dd>
+        <dd>邀请的好友购买服务还可额外收获牛币哦！</dd>
+    </dl>
+</section>
+<script>
+    $(function(){
+        $('#icon_code').click(function(){
+            $('.pop_box').show();
+        })
+    })
+    function colsedpop (obj){
+        $(obj).parents('.pop_box').hide()
+    }
+</script>
+</body>
+</html>
