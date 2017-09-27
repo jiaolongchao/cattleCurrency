@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+   /* var ary = [1,1,2,2,2,3,3,4,4,5,5];
+    var nary = [];
+    function traverseTree(data){
+        var temp = [];
+        if(data.length == 0) return false;
+        for(var i = 0; i <= data.length; i++){
+            temp.push(data[i])
+            if(data[i] != data[i+1]) break;
+        }
+        nary.push(temp);
+        data.splice(0,temp.length);
+        traverseTree(data);
+    }
+    traverseTree(ary)*/
+</script>
+<script>
+   /* var data = [{amounts: "-50", remark: "descdescdesc", time: '2017-09'},
+    {amounts: "+1000", remark: "好友购买智选组合5号获得", time: '2017-09'},
+    {amounts: "+1000", remark: "好友购买智选组合2号获得", time: '2017-09'},
+    {amounts: "+500", remark: "购买智选组合2号获得", time: '2017-09'},
+    {amounts: "+5", remark: "购买智选组合2号获得", time: '2017-08'},
+    {amounts: "+2", remark: "购买智选组合一号获得", time: '2017-08'},
+    {amounts: "+500", remark: "注册奖励", time: '2017-08'},
+    {amounts: "+5", remark: "购买智选组合2号获得", time: '2017-07'},
+    {amounts: "+2", remark: "购买智选组合一号获得", time: '2017-07'},
+    {amounts: "+500", remark: "注册奖励", time: '2017-07'}]
+
+    var nary = [];
+    function traverseTree(data){
+        var temp = [];
+        if(data.length == 0) return false;
+        for(var i = 0; i < data.length; i++){
+            temp.push(data[i])
+            if(data[i].time == data[data.length - 1].time) return;
+            if(data[i].time != data[i+1].time) break;
+        }
+        nary.push(temp);
+        data.splice(0,temp.length);
+        traverseTree(data);
+    }
+    traverseTree(data)
+    nary.push(data)*/
+</script>
+<script>
+    //时间戳转换成  年-月-日
+    function timestamp(date,separator){
+        if(date===""){
+            return "--";
+        }else{
+            var date =new Date(date*1000);
+            var Y = date.getFullYear();
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1);
+            var D = date.getDate();
+            var h=(date.getHours()<10 ? "0"+(date.getHours()) : date.getHours())+':';
+            var m=(date.getMinutes()<10 ? "0"+(date.getMinutes()) : date.getMinutes())+':';
+            var s=(date.getSeconds()<10 ? "0"+(date.getSeconds()) : date.getSeconds());
+            if(D<10){
+                D=0+D;
+            }
+            if(separator == '-'){
+                return ( Y+ '-' + M);
+            }else if(separator == 'ch'){
+                return ( Y+ '年' + M + '月' + D + '日');
+            }else{
+                return ( Y + M + D);
+            }
+
+        }
+    }
+    var data = [{amounts: "-50", remark: "descdescdesc", time: '1506139931'},
+        {amounts: "+1000", remark: "好友购买智选组合5号获得", time: '1506139931'},
+        {amounts: "+1000", remark: "好友购买智选组合2号获得", time: '1506139931'},
+        {amounts: "+500", remark: "购买智选组合2号获得", time: '1507139931'},
+        {amounts: "+5", remark: "购买智选组合2号获得", time: '1507139931'},
+        {amounts: "+2", remark: "购买智选组合一号获得", time: '21507139931'},
+        {amounts: "+500", remark: "注册奖励", time: '21508139931'},
+        {amounts: "+5", remark: "购买智选组合2号获得", time: '21508139931'},
+        {amounts: "+2", remark: "购买智选组合一号获得", time: '21508139931'},
+        {amounts: "+500", remark: "注册奖励", time: '21508139931'}]
+    function o(data) {
+        let obj={};
+        data.map((item)=>{
+            if(!obj[ timestamp(item.time,'-') ]){
+                obj[ timestamp(item.time,'-') ]=[];
+            }
+            obj[ timestamp(item.time,'-') ].push(item)
+        })
+        let ary=[];
+        for(let k in obj){
+            ary.push(obj[k])
+        }
+        return ary;
+    }
+    o(data);
+    console.log(o(data))
+</script>
+</body>
+</html>

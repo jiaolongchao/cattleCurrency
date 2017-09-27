@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #fff;">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>牛币计划-注册</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/layer/layer.js"></script>
+    <script src="js/base.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="js/layer/need/layer.css">
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body style="background: #fff;">
+<header class="headerBar">
+    <span><a href="javascript:void(0);" class="goBack"></a></span>
+    <span class="title">海纳牛牛</span>
+    <span class="explain"></span>
+</header>
+<section class="loginHeader">
+    <div class="loginTitle"></div>
+    <span class="loginsmallTitle">好友邀您与资深投资顾问一对一畅谈股市</span>
+</section>
+<section class="loginCont">
+    <span class="loginContText">输入手机号验证成功，下载APP领取牛股</span>
+    <ul class="loginContList">
+        <li><input type="tel" maxlength="11" name="phone" id="phone" class="phone" placeholder="请输入手机号"></li>
+        <li>
+            <input type="tel"  maxlength="6" name="codeNum" id="codeNum" class="codeNum" placeholder="请输入验证码">
+            <a class="btncodeNum again" id="getRecode" onclick="getRecode()"><font id="phonetext">获取验证码</font><font id="phoneCodeSent" color="#999"></font></a>
+        </li>
+    </ul>
+    <span class="protocol"><i></i><em>阅读并确认</em><a href="javascript:void(0)" style="color: #000">《用户注册协议》</a></span>
+    <a href="javascript:void(0)" class="confirmblut disable" id="confirmblut">确认</a>
+</section>
+<script>
+    $(function(){
+        $("#phone").on('keyup', function () {
+            check_phone_keyup($(this));
+        })
+        $('#phone,#codeNum').keyup(function () {
+            if($('#phone').val().length == 11 && $('#codeNum').val().length == 6){
+                $('.confirmblut').removeClass('disable');
+                $('.protocol i').addClass('pass');
+            }
+        })
+        $('#confirmblut').click(function(){
+            if(!check_name()) return;
+            if($('#codeNum').val().length != 6){
+                layer.open({
+                    btn: ['<span class="single">确定</span>'],
+                    shadeClose: false,
+                    content: '请输入正确短信验证码'
+                });
+            }
+
+            var register_message = {
+                "sms_code":$('#codeNum').val(),
+                "mobile":$('#phone').val(),
+                "source":"web",
+                "version":"hn_nniu_1.4"
+            }
+            register_message = JSON.stringify(register_message);
+            var client_id = getUrlParam('_id');
+            $.ajax({
+                type: "post",
+                url : httpApi3 + 'api/v2/user/register/recommend?type=3&_id=' + client_id,
+                dataType: 'json',
+                data: register_message,
+                success: function (datas) {
+                    console.log(datas)
+                    if(datas.code == 200){
+                        window.location.href = 'succeed.html'
+                    }else if(datas.code == 41015){
+                        layer.open({
+                            btn: ['<span class="single">确定</span>'],
+                            shadeClose: false,
+                            content: '手机验证码错误'
+                        });
+                    }else if(datas.code == 41016){
+                        layer.open({
+                            btn: ['<span class="single">确定</span>'],
+                            shadeClose: false,
+                            content: '手机号码已经被绑定'
+                        });
+                    }else if(datas.code == 41018){
+                        layer.open({
+                            btn: ['<span class="single">确定</span>'],
+                            shadeClose: false,
+                            content: '验证码过期'
+                        });
+                    }else{
+                        console.log('注册失败');
+                    }
+                },
+                error: function (e) {
+                    console.log("error")
+                }
+            })
+
+        })
+
+    })
+</script>
+</body>
+</html>

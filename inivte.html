@@ -4,23 +4,9 @@
     <meta charset="UTF-8">
     <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="renderer" content="webkit">
-    <title>牛币计划-</title>
+    <title>牛币计划</title>
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script>
-        (function (doc, win) {
-            var docEl = doc.documentElement,
-                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-                recalc = function () {
-                    var clientWidth = docEl.clientWidth;
-                    if (!clientWidth) return;
-                    docEl.style.fontSize = clientWidth / 7.5 + 'px';
-                };
-            // Abort if browser does not support addEventListener
-            if (!doc.addEventListener) return;
-            win.addEventListener(resizeEvt, recalc, false);
-            doc.addEventListener('DOMContentLoaded', recalc, false);
-        })(document, window);
-    </script>
+    <script src="js/base.js"></script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css"/>
 </head>
@@ -28,21 +14,21 @@
 <header class="headerBar whiteStyle">
     <span><a href="javascript:void(0);" class="goBack"></a></span>
     <span class="title">邀请好友</span>
-    <span class="explain">获得记录</span>
+    <span class="explain"><a href="inivteRecord.html" style="color: #fff">获得记录</a></span>
 </header>
 <section class="header">
-    <h1 class="HeadNum">1,888<small>个</small></h1>
+    <h1 class="HeadNum"></h1>
     <span class="HeadIcon">获得牛币<i></i></span>
 </section>
 <section class="menu_invite">
-    <span><em class="inviteNumber">5,001</em><em class="inviteText">注册好友(个)</em></span>
-    <span><em class="inviteNumber">2,993</em><em class="inviteText">好友订阅服务(笔)</em></span>
+    <span><em class="inviteNumber inviteFirend"></em><em class="inviteText">注册好友(个)</em></span>
+    <span><em class="inviteNumber invitetake"></em><em class="inviteText">好友订阅服务(笔)</em></span>
 </section>
 <section class="inviteWay">
     <div class="inviteWayTitle"><span>邀请方式</span></div>
     <div class="inviteWayShare">
         <span>
-            <em class="icon_WeChat"></em>
+            <em class="icon_WeChat" id="icon_WeChat"></em>
             <em class="inviteWayText">分享给好友</em>
         </span>
         <span>
@@ -79,10 +65,45 @@
         $('#icon_code').click(function(){
             $('.pop_box').show();
         })
+        $('#icon_WeChat,#icon_WeChat').click(function(){
+            share();
+        })
+       getTotal();
+        $.ajax({
+            type: "get",
+            url : httpApi2 + 'api/member/profile?access_token=' + accessToken,
+            dataType: 'json',
+            success: function (datas) {
+                if(datas.code == 200){
+                    var data = datas.data;
+                    var _id = data._id;
+                    $.ajax({
+                        type: "get",
+                        url : httpApi3 + 'api/v2/user/register/qrcode?_id='+ _id +'&type=3',
+                        dataType: 'json',
+                        success: function (datas) {
+                            if(datas.code == 200){
+                                var data = datas.data;
+                                $('.codeImg').html('<img src="data:image/png;base64,'+ data.image +'" alt="">')
+                            }else{
+                                console.log('获取二维码失败')
+                            }
+                        },
+                        error: function (e) {
+                            console.log("error")
+                        }
+                    })
+
+
+                }else{
+                    console.log(' ')
+                }
+            },
+            error: function (e) {
+                console.log("error")
+            }
+        })
     })
-    function colsedpop (obj){
-        $(obj).parents('.pop_box').hide()
-    }
 </script>
 </body>
 </html>

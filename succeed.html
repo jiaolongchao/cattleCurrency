@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>牛币计划-</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/base.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+<header class="headerBar">
+    <span><a href="inivte.html" class="goBack"></a></span>
+    <span class="title">海纳牛牛</span>
+    <span class="explain"></span>
+</header>
+<section class="successTip">
+    <div class="successTitle">已下载海纳牛牛，点击<a href="javascript:void(0)" id="loginbtn">登录</a></div>
+    <div class="successImg1"></div>
+    <div class="successImg2"></div>
+    <a href="javascript:void(0)" class="downLoad" id="downLoad">点击下载</a>
+    <span class="copyright">海纳财富科技有限公司</span>
+</section>
+<script>
+    $(function(){
+        $('.successTip').css('height',$(window).height() - $('.headerBar').height());
+        $('#loginbtn').click(function (e) { //登录
+            var schemeUrl = "ihayner://homepage:10002";
+            window.location.href=schemeUrl;//打开某手机上的某个app应用
+        })
+        $('#downLoad').click(function (e) { //下载
+            if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){ //ios
+                downloadCont(1,'牛币')
+                if(isWeiXin()&&iosEdition()<10){
+                    window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.sz.nniu';
+                }else{
+                    window.location.href='https://itunes.apple.com/de/app/%E6%B5%B7%E7%BA%B3%E7%89%9B%E7%89%9B/id1236797754?mt=8';
+                }
+            }else{
+                downloadCont(2,'牛币')
+                window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.sz.nniu';
+            }
+        })
+    })
+</script>
+</body>
+</html>

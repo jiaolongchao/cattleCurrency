@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>牛币记录</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/base.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+<header class="headerBar">
+    <span><a href="index.html" class="goBack"></a></span>
+    <span class="title">牛币记录</span>
+    <span class="explain" id="explain" isShow='true'>筛选</span>
+</header>
+<div class="filtrateWrap">
+    <ul class="filtrate">
+        <li id="filtAll"><i class="icon_all"></i>全部记录</li>
+        <li id="filtGain"><i class="icon_in"></i>获得牛币</li>
+        <li id="filtUse"><i class="icon_out"></i>使用牛币</li>
+    </ul>
+</div>
+<section class="recordList">
+    <!--<div class="dataTime">2017-06</div>
+    <ul class="inviteRecord">
+        <li>
+            <div class="inviteTop">&lt;!&ndash;clearfix&ndash;&gt;
+                <span>2017年6月31日</span>
+                <span>+500牛币</span>
+            </div>
+            <span class="inviteBot">注册成功</span>
+        </li>
+    </ul>  -->
+</section>
+<script>
+    $(function(){
+        $('.filtrateWrap').css({ //筛选定位
+            top : $('.headerBar').height() + 8
+        })
+        $('#explain').click(function(){ //显示隐藏切换
+            $('.filtrateWrap').slideToggle();
+        })
+
+        getRecord(0,1,23)  //默认全部记录
+        $('#filtAll').click(function () {
+            getRecord(0,1,23)  //默认全部记录
+        })
+        $('#filtGain').click(function () {
+            getRecord(1,1,23)  //默认全部记录
+        })
+        $('#filtUse').click(function () {
+            getRecord(2,1,23)  //默认全部记录
+        })
+    })
+</script>
+</body>
+</html>

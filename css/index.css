@@ -1,4 +1,5 @@
 .clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
+a{color: #3C3C3C;}
 .grey{ color: #999999!important;}
 .white{ color: #ffffff!important;}
 .headerBar{ font-size: 0.36rem; color: #000000; padding: 0 0.30rem; height: 0.85rem; display: -webkit-flex; display: flex; flex-direction: row; justify-content: space-between; align-items: center; background: #fff; box-sizing: border-box; width: 100%; z-index: 1000;}
@@ -17,7 +18,7 @@
 .HeadIcon > i{ width: 0.48rem; height: 0.52rem; display: inline-block; vertical-align: middle; background: url("../images/headericon.png") no-repeat; background-size: cover; margin-left: 0.18rem;}
 .menu_record{ height: 1.06rem; background: #fff; color: #3C3C3C; font-size: 0.32rem;  display: -webkit-flex; display: flex; flex-direction: row; justify-content: space-around; align-items: center; position: relative; margin-bottom: 0.20rem; font-family: PingFangSC-Regular;}
 .menu_record:after,.menu_invite:after{ content: ''; width: 0.02rem; height: 0.60rem; background: #F2F3F6; position: absolute; left: 50%; top:50%; margin-top: -0.3rem;}
-.menu_record .icon_record,.menu .icon_help{ width: 0.42rem; height: 0.42rem; display: inline-block; margin-right: 0.35rem; vertical-align: middle;}
+.menu_record .icon_record,.menu_record .icon_help{ width: 0.42rem; height: 0.42rem; display: inline-block; margin-right: 0.35rem; vertical-align: middle;}
 .menu_record .icon_record{ background: url("../images/icon_record.png") no-repeat; background-size: cover;}
 .menu_record .icon_help{ background: url("../images/icon_help.png") no-repeat; background-size: cover;}
 .menu_invite{height: 1.50rem; background: #FFFFFF; text-align: center; color: #999999; display: -webkit-flex; display: flex; flex-direction: row; justify-content: space-around; align-items: center; position: relative; margin-bottom: 0.20rem; font-family: PingFangSC-Regular;}
@@ -51,8 +52,8 @@
 .pop_box { position: relative; z-index: 19891014; display: none;}
 .pop_box .pop_shade{position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); pointer-events: auto; display: table;}
 .pop_box .pop_section { display: table-cell;  vertical-align: middle;  text-align: center;}
-.pop_box .pop_child {width:5.38rem; padding: 0.75rem 0.90rem 0.55rem 0.90rem; text-align: center; background: #fff; display: inline-block; word-break: break-all; border-radius: 0.10rem; box-sizing: border-box; position: relative;}
-.codeImg{ width: 3rem; height: 3rem; margin:0  auto  0.35rem auto; overflow: hidden;}
+.pop_box .pop_child {width:5.38rem; padding: 0.35rem 0 0.55rem 0; text-align: center; background: #fff; display: inline-block; word-break: break-all; border-radius: 0.10rem; box-sizing: border-box; position: relative;}
+.codeImg{ width: 4rem; height: 4rem; margin:0  auto ; overflow: hidden;}
 .codeText{font-size: 0.3rem; color: #3C3C3C; line-height: 1.7;}
 .pop_closedstyle{ display: block; width: 0.82rem; height: 0.82rem; background: url("../images/close.png") no-repeat; background-size: cover; border-radius: 50%; position: absolute;  left: 50%; margin-left: -0.41rem; top: 110%;text-indent: -9999px; overflow: hidden;}
 
@@ -79,7 +80,8 @@
 .loginContList input::-webkit-input-placeholder{ color: #C8C8C8;}
 .btncodeNum{ display: block; position: absolute; right: 0; top: 0.16rem; width: 1.65rem; height: 0.60rem; text-align: center; line-height: 0.60rem; font-size: 0.26rem; color: #FF5A1C;border: 1px solid #FF5A1C; border-radius: 0.05rem;}
 .protocol{ display: block; font-size: 0.26rem; color: #999999; margin: 0.20rem 0 0.4rem 0; text-align: left;}
-.protocol i{ display: inline-block; width: 0.3rem; height: 0.3rem; vertical-align: middle; background: url("../images/success_fill.png") no-repeat; background-size: cover; margin-right: 0.10rem;}
+.protocol i{ display: inline-block; width: 0.3rem; height: 0.3rem; vertical-align: middle; background: url("../images/success_fill.png") no-repeat; background-size: cover; margin-right: 0.10rem; transition: all linear .5s;}
+.protocol i.pass{ background: url("../images/success_fill_color.png") no-repeat; background-size: cover;}
 .confirmblut{ display: block; background-image: linear-gradient(90deg, #FF9320 0%, #FF511D 100%); box-shadow: 0 0.04rem 0.08rem 0 rgba(255,103,30,0.30); border-radius: 1rem; width: 100%; height: 0.88rem;font-size: 0.36rem;color: #FFFFFF; text-align: center; line-height: 0.88rem;}
 .disable{ opacity: 0.5;}
 
@@ -87,7 +89,18 @@
 .dataTime{ text-align: left; height: 0.80rem; line-height: 0.80rem; font-family: PingFangSC-Medium; font-size: 0.28rem; color: #999999; padding: 0 0.30rem;}
 .inviteRecord{ background: #fff;}
 .inviteRecord li{ border-bottom: solid 1px #E5E5E5; font-family:'SFNSDisplay'; font-size: 0.32rem; color: #3C3C3C; padding: 0.30rem;}
-
 .inviteRecord li:last-child{ border-bottom: none;}
 .inviteTop{ display: -webkit-flex; display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 0.13rem;}
 .inviteBot{ font-size: 0.30rem; color: #999999;}
+
+.filtrateWrap{ position: absolute; width: 2.60rem; height: 3.06rem; right: 0.15rem; display: none;}
+.filtrateWrap:after{ content: ''; width: 0.26rem; height: 0.26rem; background: #fff; position: absolute; right: 0.30rem; top: -0.13rem; transform: rotate(45deg); box-shadow: 0.02rem 0.01rem 0.05rem rgba(0,0,0,0.3); z-index: 10000;}
+.filtrate{ background: #fff; font-size: 0.30rem; color: #3C3C3C; text-align: center; box-shadow: 0.02rem 0.03rem 0.05rem rgba(0,0,0,0.3); position: relative; z-index: 10001;}
+
+.filtrate li{ width: 1.9rem; margin: 0 auto; height: 1rem; line-height: 1rem; border-bottom: solid 1px #E5E5E5;}
+.filtrate li:last-child{ border-bottom: none;}
+.filtrate li > i{ display: inline-block; vertical-align: middle; margin-right: 0.15rem;}
+.filtrate li > i.icon_all{width: 0.29rem; height: 0.33rem; background: url("../images/icon_all.png") no-repeat; background-size: cover;}
+.filtrate li > i.icon_in{width: 0.33rem; height: 0.33rem; background: url("../images/icon_in.png") no-repeat; background-size: cover;}
+.filtrate li > i.icon_out{width: 0.37rem; height: 0.33rem; background: url("../images/icon_out.png") no-repeat; background-size: cover;}
+.single{ color:#FF511D; font-weight: bold; }
