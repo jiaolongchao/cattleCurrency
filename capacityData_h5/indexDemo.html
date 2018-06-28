@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智能诊股</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+//                    console.log(clientWidth);
+                    if (!clientWidth) return;
+                    if (clientWidth >= 750) {
+                        docEl.style.fontSize = '100px';
+                    } else {
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/echarts.common.min.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div class="echarts-wrapper">
+    <div class="name">
+        <div class="name-left">每股收益</div>
+        <div class="name-right">净资产收益率</div>
+    </div>
+    <div id="main" class="main"></div>
+    <div class="chart-desc">
+        <div class="charts-right">
+            <span></span>
+            <span>净资产收益率</span>
+        </div>
+        <div class="charts-left">
+            <span></span>
+            <span>每股收益</span>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $("#main").height($("#main").width()/1.55);
+    function setFontSize(val) {
+        var docEl = document.documentElement;
+        if (docEl.clientWidth.clientWidth >= 750) {
+            docEl.style.fontSize = '100px';
+        } else {
+            docEl.style.fontSize = 100 * (docEl.clientWidth / 750) + 'px';
+        }
+        return parseFloat(docEl.style.fontSize) * val;
+    }
+
+    var myChart = echarts.init(document.getElementById('main'));
+    var myDongChart = echarts.init(document.getElementById('main'));
+    var data1 = ['2016-9-13', '2016-10-13', '2016-11-13', '2016-12-13', '2017-1-13', '2017-2-13', '2017-3-13',
+        '2017-4-13'
+    ];
+    var data3 = [0.64, 0.57, 0.66, 0.64, 0.6, 0.72, 0.57, 0.6];
+    var data4 = [3.4, 3.6, 3.5, 3.7, 4.0, 4.2, 4.4, 4.6];
+    var option = {
+        baseOption: {
+            tooltip: {
+                show: false,
+                trigger: 'axis'
+            },
+            grid: {
+                left: '5%',
+                top: '2%',
+                width: "90%",
+                height: "98%",
+                containLabel: true
+            },
+            legend: {
+                show: false,
+                data: ['每股收益', '净资产收益率']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: data1,
+                    axisPointer: {
+                        type: 'line'
+                    },
+//                坐标轴刻度标签的相关设置。
+                    axisLabel: {
+                        formatter: '{value}',
+                        textStyle: {
+                            color: "#3c3c3c",
+                            fontSize: setFontSize(0.2)
+                        }
+//                        interval:4
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false,
+                        alignWithLabel: true
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    /*每股收益的y轴有刻度，但是没有轴线*/
+                    type: 'value',
+                    min: 0.56,
+                    max: 0.72,
+                    interval: 0.02,
+                    axisLabel: {
+                        formatter: '{value}',
+                        //刻度上的文字样式设置
+                        textStyle: {
+                            color: "#999999",
+                            fontSize: setFontSize(0.22)
+                        },
+                        showMaxLabel: true,
+                        showMinLabel: false
+//                        margin: 50
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+//                        interval: 1
+                    },
+                    splitLine: { //分割线
+                        show: false
+                    }
+                },
+                {
+                    type: 'value',
+                    min: 3.2,
+                    max: 4.8,
+                    interval: 0.2,
+                    axisLabel: {
+                        formatter: '{value}%',
+                        //刻度上的文字样式设置
+                        textStyle: {
+                            color: "#999999",
+                            fontSize: setFontSize(0.22)
+                        },
+                        showMaxLabel: true,
+                        showMinLabel: false
+                    },
+                    splitLine: { //分割线
+                        show: true,
+                        lineStyle: {
+                            width: 1,
+                            color: ["#c8c8c8"],
+                            type: "dashed"
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '净资产收益率',
+                    type: 'line',
+                    showAllSymbol: true,
+                    symbol: "circle",
+                    smooth: true,
+                    symbolSize: 6,
+                    yAxisIndex: 1,
+                    interval: 2,
+                    lineStyle: {   //折线线性渐变的颜色
+                        normal: {
+                            color: "#FF3D71"
+                            /*   new echarts.graphic.LinearGradient(
+                             0, 0, 0, 1,
+                             [
+                             {offset: 1, color: '#FFC75E'},
+                             {offset: 0, color: '#F03DA2'}
+                             ]
+                             )*/,
+                            width: 2
+                        }
+                    },
+                    itemStyle: { //折线圆点的颜色
+                        normal: {
+                            //'#F35298'
+                            color: function (params) {
+//                                console.log(params);
+                                if (params.dataIndex % 2 === 0) {
+                                    return '#F35298'
+                                } else if (params.dataIndex === data4.length - 1) {
+                                    return "#F35298"
+                                } else {
+                                    return "transparent"
+                                }
+                            }
+                        }
+                    },
+                    data: data4
+                },
+                {
+                    name: '每股收益',
+                    type: 'bar',
+                    barWidth: 10,
+                    boundaryGap: false,
+                    data: data3,
+//                    barCategoryGap: 5,
+                    //柱状图的颜色渐变
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#81ADFF'},
+                                    {offset: 0, color: '#5D95FF'}
+                                ]
+                            ),
+                            barBorderRadius: 5
+                        }
+                    }
+                }
+            ]
+        }
+    };
+    myChart.setOption(option);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<title>智能诊股-价值透视</title>
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script src="js/echarts.min.js"></script>
+		<script src="js/base.js"></script>
+		<script>
+            (function (doc, win) {
+                var docEl = doc.documentElement,
+                    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                    recalc = function () {
+                        var clientWidth = docEl.clientWidth;
+                        if (!clientWidth) return;
+                        docEl.style.fontSize = clientWidth / 7.5 + 'px';
+                    };
+                // Abort if browser does not support addEventListener
+                if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                doc.addEventListener('DOMContentLoaded', recalc, false);
+            })(document, window);
+		</script>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/index.css"/>
+	</head>
+	<body>
+		<!--选项卡部分-->
+		<section class="stockTab">
+			<ul class="stockTabTitle clearfix">
+                <li class=""><a href="index.html">舆情关注</a></li>
+                <li class=""><a href="资金监控.html">资金监控</a></li>
+                <li class=""><a href="技术分析.html">技术分析</a></li>
+                <li class="active"><a href="价值透视.html">价值透视</a></li>
+			</ul>
+			<div class="stockTabText">
+				最近一年，白云机场主营收入平稳增长，公司总体资产亦较为平稳，但增速较低。近期该公司股东人数连续减少。
+			</div>
+		</section>
+		<!--盈利能力-->
+		<section class="profitability">
+			<div class="stocksFunds">
+				<span class="sp1">每股收益</span>
+				<span class="sp2">净资产收益率</span>
+				<span class="sp3"><i></i>每股收益</span>
+				<span class="sp4"><i></i>净资产收益率</span>
+				<!--统计图-->
+				<div class="stocksFundsCharts" id="stocksFundsCharts">
+					<script type="text/javascript">
+						$("#stocksFundsCharts").height($("#stocksFundsCharts").width()/1.78);
+						var stocksFundsCharts = document.getElementById('stocksFundsCharts');
+						var data1 = ['2016-9-13', '2016-10-13', '2016-11-13', '2016-12-13', '2017-1-13', '2017-2-13', '2017-3-13','2017-4-13'];
+						var data3 = [0.64, 0.57, 0.66, 0.64, 0.6, 0.72, 0.57, 0.6];
+						var data4 = [3.4, 3.6, 3.5, 3.7, 4.0, 4.2, 4.4, 4.6];
+						var option = {
+							baseOption: {
+								tooltip: {
+									show: false,
+									trigger: 'axis'
+								},
+								grid: {
+									left: '5%',
+									top: '5%',
+									width: "90%",
+									height: "89%",
+									containLabel: true
+								},
+								legend: {
+									show: false,
+									data: ['每股收益', '净资产收益率']
+								},
+								xAxis: [
+									{
+										type: 'category',
+										data: data1,
+										axisPointer: {
+											type: 'line'
+										},// 坐标轴刻度标签的相关设置。
+										axisLabel: {
+											formatter: '{value}',
+											textStyle: {
+												color: "#3c3c3c",
+												fontSize: setFontSize(0.2)
+											}// interval:4
+										},
+										axisLine: {
+											show: false
+										},
+										axisTick: {
+											show: false,
+											alignWithLabel: true
+										},
+										splitLine: {
+											show: false
+										}
+									}
+								],
+								yAxis: [
+									{
+										/*每股收益的y轴有刻度，但是没有轴线*/
+										type: 'value',
+										min: 0.56,
+										max: 0.72,
+										interval: 0.02,
+										axisLabel: {
+											formatter: '{value}',
+											//刻度上的文字样式设置
+											textStyle: {
+												color: "#999999",
+												fontSize: setFontSize(0.22)
+											},
+											showMaxLabel: true,
+											showMinLabel: false
+//                        margin: 50
+										},
+										axisLine: {
+											show: false
+										},
+										axisTick: {
+											show: false
+//                        interval: 1
+										},
+										splitLine: { //分割线
+											show: false
+										}
+									},
+									{
+										type: 'value',
+										min: 3.2,
+										max: 4.8,
+										interval: 0.2,
+										axisLabel: {
+											formatter: '{value}%',
+											//刻度上的文字样式设置
+											textStyle: {
+												color: "#999999",
+												fontSize: setFontSize(0.22)
+											},
+											showMaxLabel: true,
+											showMinLabel: false
+										},
+										splitLine: { //分割线
+											show: true,
+											lineStyle: {
+												width: 1,
+												color: ["#c8c8c8"],
+												type: "dashed"
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										axisLine: {
+											show: false
+										}
+									}
+								],
+								series: [
+									{
+										name: '净资产收益率',
+										type: 'line',
+										showAllSymbol: true,
+										symbol: "circle",
+										smooth: true,
+										symbolSize: 6,
+										yAxisIndex: 1,
+										interval: 2,
+										lineStyle: {   //折线线性渐变的颜色
+											normal: {
+												color: "#FF3D71",
+												width: 2
+											}
+										},
+										itemStyle: { //折线圆点的颜色
+											normal: {
+												//'#F35298'
+												color: function (params) {
+													if (params.dataIndex % 2 === 0) {
+														return '#F35298'
+													} else if (params.dataIndex === data4.length - 1) {
+														return "#F35298"
+													} else {
+														return "transparent"
+													}
+												}
+											}
+										},
+										data: data4
+									},
+									{
+										name: '每股收益',
+										type: 'bar',
+										barWidth: 10,
+										boundaryGap: false,
+										data: data3,
+//                    barCategoryGap: 5,
+										//柱状图的颜色渐变
+										itemStyle: {
+											normal: {
+												color: new echarts.graphic.LinearGradient(
+														0, 0, 0, 1,
+														[
+															{offset: 1, color: '#81ADFF'},
+															{offset: 0, color: '#5D95FF'}
+														]
+												),
+												barBorderRadius: 5
+											}
+										}
+									}
+								]
+							}
+						};
+                        echarts.init(stocksFundsCharts).setOption(option);
+					</script>
+				</div>
+			</div>
+			<div class="general">
+				<span class="generalHeading">盈利能力</span>
+				<span class="generalintroduce">公司每股收益为0.67，净资产收益率为3.86%，每股收益位居行业前列，强烈建议关注。指标分别在银行行业中排名9/25，3/25。</span>
+			</div>
+		</section>
+
+		<!--成长能力-->
+		<section class="growthAbility">
+			<div class="stocksFunds">
+				<span class="sp1">主营收入</span>
+				<span class="sp2">净利润</span>
+				<span class="sp3" style="left: 2.5rem"><i></i>主营收入（单季）</span>
+				<span class="sp4"><i></i>净利润（单季）</span>
+				<!--统计图-->
+				<div class="growthAbilityCharts" id="growthAbilityCharts">
+					<script>
+						/*成长能力*/
+						$("#growthAbilityCharts").height($("#growthAbilityCharts").width()/2.2);
+						var growthAbilityCharts = document.getElementById('growthAbilityCharts');
+                        $(window).scroll(function(){
+                            if(checkIsView(growthAbilityCharts)){
+                                var data1 = ['2016-9-13', '2016-10-13', '2016-11-13', '2016-12-13', '2017-1-13', '2017-2-13', '2017-3-13','2017-4-13'];
+                                var data3 = [390, 400, 410, 405, 395, 400, 410, 395];
+                                var data4 = [128, 130, 135, 140, 137, 142, 143, 132];
+                                var option = {
+                                    baseOption: {
+                                        tooltip: {
+                                            show: false,
+                                            trigger: 'axis'
+                                        },
+                                        grid: {
+                                            left: '5%',
+                                            top: '5%',
+                                            bottom: '0',
+                                            width: "90%",
+                                            containLabel: true
+                                        },
+                                        legend: {
+                                            show: false,
+                                            data: ['主营收入', '净利润']
+                                        },
+                                        xAxis: [
+                                            {
+                                                type: 'category',
+                                                data: data1,
+                                                axisPointer: {
+                                                    type: 'line'
+                                                },
+//                坐标轴刻度标签的相关设置。
+                                                axisLabel: {
+                                                    formatter: '{value}',
+                                                    textStyle: {
+                                                        color: "#3c3c3c",
+                                                        fontSize: setFontSize(0.22)
+                                                    },
+                                                    margin: 14
+//                        interval:4
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                },
+                                                axisTick: {
+                                                    show: false,
+                                                    alignWithLabel: true
+                                                },
+                                                splitLine: {
+                                                    show: false
+                                                }
+                                            }
+                                        ],
+                                        yAxis: [
+                                            {
+												/*每股收益的y轴有刻度，但是没有轴线*/
+                                                type: 'value',
+                                                min: 380,
+                                                max: 420,
+                                                interval: 10,
+                                                axisLabel: {
+                                                    formatter: '{value}' + ".0亿",
+                                                    //刻度上的文字样式设置
+                                                    textStyle: {
+                                                        color: "#999999",
+                                                        fontSize: setFontSize(0.22)
+                                                    },
+                                                    showMaxLabel: true,
+                                                    showMinLabel: true
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                },
+                                                axisTick: {
+                                                    show: false
+//                        interval: 1
+                                                },
+                                                splitLine: { //分割线
+                                                    show: false
+                                                }
+                                            },
+                                            {
+                                                type: 'value',
+                                                min: 125,
+                                                max: 145,
+                                                interval: 5,
+                                                axisLabel: {
+                                                    formatter: '{value}' + ".0亿",
+                                                    //刻度上的文字样式设置
+                                                    textStyle: {
+                                                        color: "#999999",
+                                                        fontSize: setFontSize(0.22)
+                                                    },
+                                                    showMaxLabel: true,
+                                                    showMinLabel: true
+                                                },
+                                                splitLine: { //分割线
+                                                    show: true,
+                                                    lineStyle: {
+                                                        width: 1,
+                                                        color: ["#C8C8C8"],
+                                                        type: "dashed"
+                                                    }
+                                                },
+                                                axisTick: {
+                                                    show: false
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                }
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                name: '净利润',
+                                                type: 'line',
+                                                showAllSymbol: true,
+                                                symbol: "circle",
+                                                smooth: true,
+                                                symbolSize: 6,
+                                                yAxisIndex: 1,
+                                                interval: 2,
+                                                lineStyle: {   //折线线性渐变的颜色
+                                                    normal: {
+                                                        color: '#F35298',
+                                                        width: 2
+                                                    }
+                                                },
+                                                itemStyle: { //折线圆点的颜色
+                                                    normal: {
+                                                        //'#F35298'
+                                                        color: function (params) {
+//                                console.log(params);
+                                                            if (params.dataIndex % 2 === 0) {
+                                                                return '#F35298'
+                                                            } else if (params.dataIndex === data4.length - 1) {
+                                                                return "#F35298"
+                                                            } else {
+                                                                return "transparent"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                data: data4
+                                            },
+                                            {
+                                                name: '主营收入',
+                                                type: 'bar',
+                                                barWidth: 10,
+                                                boundaryGap: false,
+                                                data: data3,
+//                    barCategoryGap: 5,
+                                                //柱状图的颜色渐变
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: new echarts.graphic.LinearGradient(
+                                                            0, 0, 0, 1,
+                                                            [
+                                                                {offset: 1, color: '#82AEFF'},
+                                                                {offset: 0, color: '#538FFF'}
+                                                            ]
+                                                        ),
+                                                        barBorderRadius: 5
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+
+                                };
+                                echarts.init(growthAbilityCharts).setOption(option);
+                            }
+                        })
+					</script>
+				</div>
+			</div>
+			<div class="general">
+				<span class="generalHeading">成长能力</span>
+				<span class="generalintroduce">主营收入平稳增长，公司总体资产亦较为平稳，但增速较低。主营业务收入和净利润分别在银行行业排名7/25，8/25。</span>
+			</div>
+		</section>
+
+		<!--偿还能力-->
+		<section class="repaidAbility">
+			<div class="stocksFunds">
+				<span class="sp1">资产负债率</span>
+				<span class="sp2">速度比率</span>
+				<span class="sp3"><i></i>资产负债率</span>
+				<span class="sp4"><i></i>速度比率</span>
+				<!--统计图-->
+				<div class="repaidAbilityCharts" id="repaidAbilityCharts">
+					<script>
+						/*资产负债率*/
+                        $("#repaidAbilityCharts").height($("#repaidAbilityCharts").width() / 2.06);
+                        var repaidAbilityCharts = document.getElementById('repaidAbilityCharts');
+                        $(window).scroll(function(){
+                            if(checkIsView(repaidAbilityCharts)){
+                                var data1 = ['2016-9-13', '2016-10-13', '2016-11-13', '2016-12-13', '2017-1-13', '2017-2-13', '2017-3-13','2017-4-13'];
+                                var data3 = [93.0, 92.0, 93.0, 92.0, 93.0, 93.0, 93.0, 93.0]
+                                var data4 = [0, 0, 0, 0, 0, 0, 0, 0]
+                                var option = {
+                                    baseOption: {
+                                        tooltip: {
+                                            show: false,
+                                            trigger: 'axis'
+                                        },
+                                        grid: {
+                                            left: '5%',
+                                            top: '3%',
+                                            width: "90%",
+                                            height: "97%",
+                                            containLabel: true
+                                        },
+                                        legend: {
+                                            show: false,
+                                            data: ['每股收益', '净资产收益率']
+                                        },
+                                        xAxis: [
+                                            {
+                                                type: 'category',
+                                                data: data1,
+                                                axisPointer: {
+                                                    type: 'line'
+                                                },
+//                坐标轴刻度标签的相关设置。
+                                                axisLabel: {
+                                                    formatter: '{value}',
+                                                    textStyle: {
+                                                        color: "#3c3c3c",
+                                                        fontSize: setFontSize(0.2)
+                                                    }
+//                        interval:4
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                },
+                                                axisTick: {
+                                                    show: false,
+                                                    alignWithLabel: true
+                                                },
+                                                splitLine: {
+                                                    show: false
+                                                }
+                                            }
+                                        ],
+                                        yAxis: [
+                                            {
+												/*每股收益的y轴有刻度，但是没有轴线*/
+                                                type: 'value',
+                                                min: 91.0,
+                                                max: 93.7,
+                                                interval: 0.1,
+                                                axisLabel: {
+                                                    formatter: '{value}' + "%",//刻度上的文字样式设置
+                                                    textStyle: {
+                                                        color: "#999999",
+                                                        fontSize: setFontSize(0.22)
+                                                    },
+                                                    showMaxLabel: true,
+                                                    showMinLabel: true
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                },
+                                                axisTick: {
+                                                    show: false// interval: 1
+                                                },
+                                                splitLine: { //分割线
+                                                    show: false
+                                                }
+                                            },
+                                            {
+                                                type: 'value',
+                                                min: -1,
+                                                max: 1.5,
+                                                interval: 0.5,
+                                                axisLabel: {
+                                                    formatter: '{value}' + "%",//刻度上的文字样式设置
+                                                    textStyle: {
+                                                        color: "#999999",
+                                                        fontSize: setFontSize(0.22)
+                                                    },
+                                                    showMaxLabel: true,
+                                                    showMinLabel: true
+                                                },
+                                                splitLine: { //分割线
+                                                    show: true,
+                                                    lineStyle: {
+                                                        width: 1,
+                                                        color: ["#C8C8C8"],
+                                                        type: "dashed"
+                                                    }
+                                                },
+                                                axisTick: {
+                                                    show: false
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                }
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                name: '净资产收益率',
+                                                type: 'line',
+                                                showAllSymbol: true,
+                                                symbol: "circle",
+                                                smooth: true,
+                                                symbolSize: 6,
+                                                yAxisIndex: 1,
+                                                interval: 2,
+                                                lineStyle: {   //折线线性渐变的颜色
+                                                    normal: {
+                                                        color: "#FF3D71",
+                                                        width: 2
+                                                    }
+                                                },
+                                                itemStyle: { //折线圆点的颜色
+                                                    normal: {
+                                                        //'#F35298'
+                                                        color: function (params) {//
+                                                            if (params.dataIndex % 2 === 0) {
+                                                                return '#F35298'
+                                                            } else if (params.dataIndex === data4.length - 1) {
+                                                                return "#F35298"
+                                                            } else {
+                                                                return "transparent"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                data: data4
+                                            },
+                                            {
+                                                name: '每股收益',
+                                                type: 'bar',
+                                                barWidth: 10,
+                                                boundaryGap: false,
+                                                data: data3,
+//                    barCategoryGap: 5,
+                                                //柱状图的颜色渐变
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: new echarts.graphic.LinearGradient(
+                                                            0, 0, 0, 1,
+                                                            [
+                                                                {offset: 1, color: '#81ADFF'},
+                                                                {offset: 0, color: '#5D95FF'}
+                                                            ]
+                                                        ),
+                                                        barBorderRadius: 5
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                };
+                                echarts.init(repaidAbilityCharts).setOption(option)
+                            }
+                        })
+					</script>
+				</div>
+			</div>
+			<div class="general">
+				<span class="generalHeading">偿还能力</span>
+				<span class="generalintroduce">最近报告期，公司资产负债率为93.46%，速动比率为0% 。两个指标分别在银行行业中排名10/25，1/25。</span>
+			</div>
+		</section>
+		<!--股东人数-->
+		<section class="holdersNumber">
+			<div class="stocksFunds">
+				<span class="sp1">股东人数</span>
+				<span class="sp5"><i></i>股东人数</span>
+				<!--统计图-->
+				<div class="holdersNumberCharts " id="holdersNumberCharts">
+					<script>
+						$("#holdersNumberCharts").height($("#holdersNumberCharts").width()/1.88);
+						var holdersNumberCharts = document.getElementById('holdersNumberCharts');
+                        $(window).scroll(function(){
+                            if(checkIsView(holdersNumberCharts)){
+                                var xData = ['2016-12-13', '2016-12-13', '2016-12-13', '2016-12-13', '2016-12-13', '2016-12-13', '2016-12-13', '2016-12-13'];
+                                var yData = [];
+                                var data=[20, 18, 23, 32, 20, 18, 16, 19];
+                                var option = {
+                                    baseOption: {
+                                        title: {
+                                            show: false,
+                                            text: "股东人数",
+                                            textStyle: {
+                                                color: "#d1d1d1",
+                                                fontSize: setFontSize(0.22)
+                                            },
+                                            left: "3%",
+                                            padding: [2, -10]
+                                        },
+                                        tooltip: {
+                                            show: true,
+                                            confine:true,
+                                            trigger: 'axis',
+                                            formatter: function (params) {
+                                                return '<div>' +
+                                                    '<div class="date">' + params[0].axisValue + '</div>'
+                                                    + '<div class="val">' + params[0].seriesName + ':  ' + params[0].value + '万' + '</div>'
+                                                    + '</div>'//                    console.log(params);
+                                            },
+                                            config: true,
+                                            backgroundColor: "rgba(255,90,28,0.80)",
+                                            borderColor: "#FF5A1C",
+                                            borderWidth: 1,
+                                            padding:8,
+                                            textStyle: {
+                                                color: "#fff",
+                                                fontSize: setFontSize(0.22)
+                                            },
+                                            axisPointer: {//坐标轴指示器配置项
+                                                type: "line",
+                                                lineStyle: {
+                                                    color: new echarts.graphic.LinearGradient(
+                                                        0, 0, 0, 1,
+                                                        [
+                                                            {offset: 0, color: '#FF511C'},
+                                                            {offset: 1, color: '#FF9320'}
+                                                        ]
+                                                    ),
+                                                    width: 1,
+                                                },
+                                                label: {
+                                                    show: false
+                                                }
+                                            },
+                                        },
+                                        grid: {
+                                            top:'3%',
+                                            right: '0',
+                                            bottom: '5%',
+                                            left: "5%",
+                                            width: "90%",
+                                            height:"100%",
+                                            containLabel: true
+                                        },
+                                        legend: {
+                                            show: false,
+                                            data: ['股东人数']
+                                        },
+                                        xAxis: [
+                                            {
+                                                type: 'category',
+                                                data: xData,
+                                                axisPointer: {
+                                                    type: 'line'
+                                                },//坐标轴刻度标签的相关设置。
+												offset:-15,
+                                                axisLabel: {
+                                                    interval: 1,
+                                                    formatter: '{value}',
+                                                    textStyle: {
+                                                        color: "#3c3c3c",
+                                                        fontSize: setFontSize(0.20)
+                                                    },
+                                                    margin: 24
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                },
+                                                axisTick: {
+                                                    show: false,
+                                                    alignWithLabel: true
+                                                },
+                                                splitLine: {
+                                                    show: false,
+                                                    lineStyle: {
+                                                        width: 2,
+                                                        color: ["#eee"],
+                                                        type: "dashed"
+                                                    },
+                                                    interval: function (index) {
+                                                        if (typeof index === 'undefined') {
+                                                            return false;
+                                                        }
+                                                        return true;
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        yAxis: [
+                                            {
+												/*每股收益的y轴有刻度，但是没有轴线*/
+                                                type: 'value',
+                                                min: 15,
+                                                max: 40,
+                                                interval: 5,
+                                                axisLabel: {
+                                                    formatter: '{value}万',//刻度上的文字样式设置
+                                                    textStyle: {
+                                                        color: "#999999",
+                                                        fontSize: setFontSize(0.2)
+                                                    },
+                                                    showMaxLabel: true,
+                                                    showMinLabel: false
+                                                },
+                                                axisLine: {
+                                                    show: false
+                                                },
+                                                axisTick: {
+                                                    show: false//  interval: 1
+                                                },
+                                                splitLine: { //分割线
+                                                    show: true,
+                                                    lineStyle: {
+                                                        width: 1,
+                                                        color: ["#c8c8c8"],
+                                                        type: "dotted"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                name: '股东人数',
+                                                type: 'bar',
+                                                barWidth: 10,
+                                                barGap: "15%",
+                                                boundaryGap: true,
+                                                data: data,
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: new echarts.graphic.LinearGradient(
+                                                            0, 0, 0, 1,
+                                                            [
+                                                                {offset: 0, color: '#FF511C'},
+                                                                {offset: 1, color: '#FF9320'}
+                                                            ]
+                                                        ),
+                                                        barBorderRadius: 5
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: '股东人数',
+                                                type: 'line',
+                                                symbol: "circle",
+                                                symbolSize: 6,
+                                                //                    tooltop:{
+                                                //                        formatter: '{b0}: {c0}<br />{b1}: {c1}'
+                                                //                    },
+                                                lineStyle: {   //折线线性渐变的颜色
+                                                    normal: {
+                                                        color: "transparent",
+                                                        width: 0,
+                                                        opacity: 0
+                                                    }
+                                                },
+                                                itemStyle: { //折线圆点的颜色
+                                                    normal: {
+                                                        borderWidth: 4,
+                                                        color: 'transparent'
+                                                    },
+                                                    emphasis: {
+                                                        color: "#fff",
+                                                        borderWidth: 4,
+                                                        borderColor: new echarts.graphic.LinearGradient(
+                                                            0, 0, 0, 1,
+                                                            [
+                                                                {offset: 0, color: '#FF511C'},
+                                                                {offset: 1, color: '#FF9320'}
+                                                            ]
+                                                        )
+                                                    }
+                                                },
+                                                data:data
+                                            }
+                                        ]
+                                    }
+
+                                };
+                                echarts.init(holdersNumberCharts).setOption(option)
+                            }
+                        })
+					</script>
+				</div>
+			</div>
+			<div class="general">
+				<span class="generalHeading">股东认可</span>
+				<span class="generalintroduce">最近报告期，公司资产负债率为93.46%，速动比率为0% 。两个指标分别在银行行业中排名10/25，1/25。</span>
+			</div>
+		</section>
+	</body>
+</html>

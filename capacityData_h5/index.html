@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<title>智能诊股</title>
+		<script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/echarts.common.min.js"></script>
+        <script src="js/base.js"></script>
+		<script>
+            (function (doc, win) {
+                var docEl = doc.documentElement,
+                    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                    recalc = function () {
+                        var clientWidth = docEl.clientWidth;
+                        if (!clientWidth) return;
+                        docEl.style.fontSize = clientWidth / 7.5 + 'px';
+                    };
+                // Abort if browser does not support addEventListener
+                if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                doc.addEventListener('DOMContentLoaded', recalc, false);
+            })(document, window);
+		</script>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/index.css"/>
+	</head>
+	<body>
+		<!--股票标头-->
+		<section class="stockTrend">
+			<h1 class="stockTrend_Name">中国铁建<small>(601186)</small></h1>
+			<div class="stockTrendBullish">
+				<p class="stockTrend_pice left"><small>现价：</small><em>12.14</em></p>
+				<p class="stockTrend_amount right"><small>日涨跌幅：</small><em>+0.98%</em></p>
+			</div>
+			<div class="stockTrendAnalyze">透视结果浦发银行市场关注度持续下降，市场整体正情感占优，达到了89%，市场对其比较看好，所属概念主题关注度最高的为沪企改革。</div>
+			<div class="stockTrendProgress">
+				<div class="progressBg">
+					<div class="progressBar"></div>
+				</div>
+				<ul class="progressTitle"><li>风险</li><li>观望</li><li>机会</li></ul>
+			</div>
+		</section>
+		<!--选项卡部分-->
+		<section class="stockTab">
+			<ul class="stockTabTitle clearfix">
+				<li class="active"><a href="index.html">舆情关注</a></li>
+				<li class=""><a href="资金监控.html">资金监控</a></li>
+				<li class=""><a href="技术分析.html">技术分析</a></li>
+				<li class=""><a href="价值透视.html">价值透视</a></li>
+			</ul>
+			<div class="stockTabText">
+				透视结果浦发银行市场关注度持续下降，市场整体正情感占优，达到了89%，市场对其比较看好，所属概念主题关注度最高的为沪企改革。
+			</div>
+		</section>
+
+		<section class="marketSentiment">
+			<!--利好利空中性-->
+			<div class="cartsPie">
+				<div class="emotionalLine"><!--圆环线--></div>
+				<div class="charts_marketSentiment" id="charts_marketSentiment">
+					<script>
+						$("#charts_marketSentiment").height($("#charts_marketSentiment").width()/2.1);
+						var myChart = echarts.init(document.getElementById('charts_marketSentiment'));
+						var img = [];
+						img[0] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAlhJREFUeNqUlEtoU1EQhr+ksY3Sh632IbEFtfUBVkEXPqgUCxVEEHQjCELBVcCFK5eigrgQC+IioDtdFdEqiBSEihSsoCAaC/XZ0lgxpimmtTQkqceZe3OTm2g0/jCce8+Z853XzHiMMRTrwl16pAmK9Vb7qavxw7c5WPrJhPQNiIXOHmWqeJ7HDRNIl0LWNnB8dwdsaIKqZXnn7wsw9hmevofFFJcFeOaPMAGd8FVw8/AO2NrKX5XKwIOX8CZCSH5PCzRlDSjs/B2z8+I9YyJx818aemWMzL2mDDVfdrHgwe0gx8tpKg7j0zARg5l5WF0D6xphcwDaVtk+BzohNscpOVVYdnfdI+SuQD0jJ/fnQWG52pG3NqRYCt23CTrb7P+vCbgxrCfE59Vd7Wov3FEpkEr7dVz9VC110GqfaI/Cetc35Z31aKVAbqD6OeposZpD3kofjSuq8gN6R+XI7VdfbTXt3uWVv69ajtx+WUaD90fSuryCCy5Hbr+FpP0WXkmRcMy1ij5/OXL7RWatZlQf4NZrV5ZpHP1rdzqufirZDONfrM9BhYVefIL5RXtQA1LjqBTQiTMncLNzr0rQTlc8HjiXGh4jE03Qs00C0eOBZomd5pXglyRPL0EyDU21EqiSs3sFtHGNDdJKMvjc2l1f9xbiOHmlOXb7mTHpTHl5GU0Y0//Qys2gw8jBssAroUfGTMZKQ3Sx0XfGXLpfCFLzFBdHSdpjmmJyrG695Fp/fmxyBj5GrVrWny2QHwrqmdBLPZrUBI6IBVx9T8SGxGadDgHm9EuAAQDQJ3ecojyL6AAAAABJRU5ErkJggg=='
+						img[1] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAjZJREFUeNqUVE9IFGEU/+2wlRqlLK6UhYEoKFgHTUHYTUgNpJOHEIL15MEFD5661CXoFhUiKHjcQSsIig4VggfdQ9QhxVXB/mz+wf+4loRrrOzrvW8cZ8ZlcPrB+5j53pvfvO977/d8RIQc6OGbvEbZWpEfKERBENhJAtnMT957yTaISHzp+Gc+B5keDimSYM1dVHcApfXAqbOW/88asDAGzD0H/u4+ZsJ7DjYhUxYLRWi4mSg5Sicis0cUf0j8zQDbaZPDJKpTRJsJ+i987hPCfpPMf5hgFA294ONZKW9OA0vjwPoX4PciUHgFuFALlDUBJdeMmOs97Fvo4etJ8JGHfMwcQnF1HG1DFlFyFJiJGSTHIaQ1nUD5LeM99Q1418VHzPo1lVXVHWdGbkQC2Re/xAkCleaJGjVV/ov1VrAczY3ITihxJi41ynpbgz8/iLwiyyF35AX2uHOXZa3QcOZ87l+9wB5ncAQ0pFNyec4L9gJ7XHpb5aqxRBJcXssh5fcCe9zWrKwfpQA6kh8sh/TRSdmJX+IE2QywPCFPrzUl2vk3wN6W4ZSGlD5yIzT7zGzcr+rbPm7aFUPoevg+p/0ILc9Y+pp3BfziSfK+GzhIVzHZvF3o/TT+gOhg35sud34QvWoXbUadQrcIn9DbTqL1SXcS+dnsC6KRVgeRmC9nOOrhDiWxovImlN2AGowmNqaA1U8yy54eDsjvzuEYC7nV7Cpbu4jFticaktKnjnYi8aPHfwIMALSipugE4cwrAAAAAElFTkSuQmCC'
+						img[2] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAlZJREFUeNqUlF9IFFEUxr8ZJXMV2wRR1kzCwkAjMnyIFqKFQIygP1C4FOnjsvsggr74EkQvRZG4JUSQEgjSQ0EFPthDrCC49SBLhlpJ5ooRioSVLaunc+44zkzL1PjBuczMOfc3995zztWICDmKhUM8RthOocS/C/7dQPoLsJ6d5W9DbH2ID879PU1zwGLhoILsOxBGqBk4eAgo9Fn+pW/A2zFg5AXwc/UWA7scNIEpi7ZcofarRMlR+q/WfhE9ihPPuc+2w2SYoKMK9GmatqUnAwLsNWH5mwuM4GIreHvWkj9OARNJYOodsJgGKiqB2jrgcCNQU2vEnL8svhgfT4q3/EBjchDVNQl0XrdAyVFg+BnwdSE3OeUBoOks0Bg03uc/Aze7gY2NfF2t6mSTc0VuIJF8F7/EifZUmzs6pqv0S9ZMydbcQHagxJmqOyLjaR0FO8tQXGI55Iy8yB5XVi7jfh2+YmeQHLYX2eOKFKNUx/cVOTzLIVnzInucMBivc4ukHH+R9HuRPW52RsYxScBjjCcsh9SRpP9fEr/EidaznIw38vRUV02bGAFWlg2nFKTUkRvQrDOzcI25PVy06bxr46kMng9lufhCqhA1Dajca9SPrwjIZLipfwCBKi7U41xIZ4D6BgO0wDdJ/z1ZXSuaLyzZG72XHt4lyvz21pfpOaLuqPRmxNnoFvA23egimp50h8jPXr0k6mhzgMS0nMsxFr6kWixQdUIdsr/U8s28ByYn5C67s3lBfnBejtEWt5xJj51jsxfea7ZhtuWtL/HBrcc/AgwAUtWlDYjJXrMAAAAASUVORK5CYII='
+						var data = [20,30,50];
+						var isNull = false;
+						var dataInfo = [
+							{
+								value:data[0],
+								name:'利空',
+								itemStyle : {
+									normal : {
+										color: {
+											type: 'radial',
+											x: 0.5,
+											y: 0.5,
+											r: 0.8,
+											colorStops: [{
+												offset: 0, color: '#5f95fb' // 0% 处的颜色
+											}, {
+												offset: 1, color: '#7ca9fe' // 100% 处的颜色
+											}],
+											globalCoord: false // 缺省为 false
+										}
+									}
+								}
+							},
+							{
+								value:data[1],
+								name:'中性',
+								itemStyle : {
+									normal : {
+										color: {
+											type: 'radial',
+											x: 0.1,
+											y: 0.5,
+											r: 2,
+											colorStops: [{
+												offset: 0, color: '#e48900' // 0% 处的颜色
+											}, {
+												offset: 1, color: '#ffd19e' // 100% 处的颜色
+											}],
+											globalCoord: false // 缺省为 false
+										}
+									}
+								}
+							},
+							{
+								value:data[2],
+								name:'利好',
+								itemStyle : {
+									normal : {
+										color: {
+											type: 'radial',
+											x: 1,
+											y: 0.5,
+											r: 3,
+											colorStops: [{
+												offset: 0, color: '#ff4332' // 0% 处的颜色
+											}, {
+												offset: 1, color: '#ff9a8e' // 100% 处的颜色
+											}],
+											globalCoord: false // 缺省为 false
+										}
+									}
+								}
+							}
+						];
+						var dataInfoIcon = dataInfo.map(function(v, i) {
+							return {
+								value: v.value,
+								name: v.name,
+								label: {
+									normal: {
+										backgroundColor: {
+											image: img[i]
+										}
+									}
+								}
+							}
+						})
+						var option = {
+							title: {
+								text: '100%',
+								subtext: '情感值',
+								x: 'center',
+								y: '38%',
+								itemGap: 1, //主副标题之间的间距
+								textStyle : {
+									color : '#538FFF',
+									fontFamily : 'Arial',
+									fontSize : setFontSize(0.5),
+									fontWeight : 'normal'
+								},
+								subtextStyle :{//副标题
+									color : '#999999',
+									fontSize : setFontSize(0.25),
+								}
+							},
+							tooltip: {
+								trigger: 'item',
+								formatter: "{a} <br/>{b}: {c} ({d}%)",
+								show:false
+							},
+							legend: {
+								show:false
+							},
+							calculable:true,
+							series: [
+								{
+									name:'市场情感',
+									type:'pie',
+									radius: ['50%', '75%'],
+									center:['50%','50%'],
+									itemStyle:{
+										normal:{
+											borderColor: '#fff',
+											borderWidth: 2,
+											label: {
+												show: true,
+												position: 'outer'
+											},
+											labelLine: { //折线长度
+												show: true,
+												length: 5,
+												length2: 15,
+												lineStyle: {
+													width: 0,
+													type: 'solid',
+												}
+											}
+										}
+									},
+									label: {
+										normal: {
+											formatter: ' ',
+											padding: [0, 0],
+											width: setFontSize(0.22),
+											height: setFontSize(0.22),
+											rich: {}
+										}
+									},
+									data:dataInfoIcon
+								},
+								{
+									name:'市场情感',
+									type:'pie',
+									radius: ['50%', '75%'],
+									center:['50%','50%'],
+									hoverAnimation:false,
+									itemStyle:{
+										normal:{
+											borderColor: '#fff',
+											borderWidth: 2,
+											label: {
+												show: true,
+												position: 'outer'
+												// textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+											},
+											labelLine: { //折线长度
+												show: true,
+												length: 5,
+												length2: 15,
+												lineStyle: {
+													width: 1,
+													type: 'solid',
+												}
+											}
+										}
+									},
+									label: {
+										normal: {
+											formatter: '{b|{b}} {per|{d}%}',
+											padding: [0, setFontSize(0.3)],
+											fontSize:setFontSize(0.22),
+											rich: {
+												a: {
+													color: '#999',
+													lineHeight: 22,
+													align: 'center'
+												},
+												abg: {
+													backgroundColor: '#333',
+													width: '100%',
+													align: 'right',
+													height: 22,
+													borderRadius: [4, 4, 0, 0]
+												},
+												hr: {
+													borderColor: 'yellow',
+													width: '100%',
+													borderWidth: 0.5,
+													height: 0
+												},
+												b: {
+													fontSize: setFontSize(0.22),
+													lineHeight: 33,
+													color: '#999'
+												},
+												per: {
+													color: '#3c3c3c',
+													fontSize: setFontSize(0.22),
+												}
+											}
+										}
+									},
+									data :dataInfo
+								}
+							]
+						};
+						var option2 = {
+							title: {
+								text: '0',
+								subtext: '情感值',
+								x: 'center',
+								y: '38%',
+								itemGap: 1, //主副标题之间的间距
+								textStyle : {
+									color : '#538FFF',
+									fontFamily : 'Arial',
+									fontSize : setFontSize(0.5),
+									fontWeight : 'normal'
+								},
+								subtextStyle :{//副标题
+									color : '#999999',
+									fontSize : setFontSize(0.25),
+								}
+							},
+							tooltip: {
+								trigger: 'item',
+								formatter: "{a} <br/>{b}: {c} ({d}%)",
+								show:false
+							},
+							legend: {
+								show:false
+							},
+							calculable:true,
+							series: [
+								{
+									name:'市场情感',
+									type:'pie',
+									radius: ['50%', '75%'],
+									center:['50%','50%'],
+									hoverAnimation:false,
+									itemStyle:{
+										normal:{
+											borderColor: '#fff',
+											borderWidth: 5,
+											label: {
+												show: false,
+											},
+											labelLine: { //折线长度
+												show: false,
+											}
+										}
+									},
+									label: {show : false},
+									data : [
+										{
+											value:data[0],
+											name:'利空',
+											itemStyle : {
+												normal : {
+													color: 'rgba(242,243,246,0.8)'
+												}
+											}
+										},
+										{
+											value:data[1],
+											name:'中性',
+											itemStyle : {
+												normal : {
+													color: 'rgba(229,229,299,0.8)'
+												}
+											}
+										},
+										{
+											value:data[2],
+											name:'利好',
+											itemStyle : {
+												normal : {
+													color: 'rgba(200,200,200,0.8)'
+												}
+											}
+										}
+									]
+								}
+							]
+						};
+						if(isNull){
+							myChart.setOption(option2);
+							$('#emNum').html(0)
+						}else{
+							myChart.setOption(option);
+							$('#emNum').html('100%');
+						}
+					</script>
+				</div>
+			</div>
+			<!--市场情感-->
+			<div class="general">
+				<span class="generalHeading">市场情感</span>
+				<span class="generalintroduce">市场对浦发银行市场整体正情感占优，达到90%，市场对其比较看好。</span>
+			</div>
+		</section>
+
+		<section class="themeChanges">
+			<!--概念涨跌幅-->
+			<div class="cartsBar">
+				<span class="themeChangesTitle">概念涨跌幅</span>
+				<span class="themeChangeslengA" style="right: 1.5rem;"><i></i>涨幅</span>
+				<span class="themeChangeslengB"><i></i>跌幅</span>
+				<div class="charts_themeChanges" id="charts_themeChanges">
+					<script>
+						$("#charts_themeChanges").height($("#charts_themeChanges").width()/1.95);
+						var charts_themeChanges = document.getElementById('charts_themeChanges');
+						$(window).scroll(function(){
+							if(checkIsView(charts_themeChanges)){
+								var myChart = echarts.init(charts_themeChanges);
+								var data = [-0.6,0.4,0.7,-0.5,0.2,-0.4];
+								var data1 = data.map(function(item){ //涨幅
+									return item < 0 ? 0: item;
+								})
+								var data2 = data.map(function(item){ //跌幅
+									return item > 0 ? 0 : Math.abs(item)
+								})
+								var dataShadow = [];
+								var yMax = 0.8;
+								for (var i = 0; i < data.length; i++) {
+									dataShadow.push(yMax);
+								}
+								var option = {
+									color: ['#3398DB'],
+									tooltip : {
+										trigger: 'axis',
+										axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+											type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+										},
+										show:false
+									},
+									grid: {
+										left: '14%',
+										width:'83%',
+										top :'8%',
+										right: '0%',
+										bottom: '15%',
+										containLabel: false //grid 区域是否包含坐标轴的刻度标签
+									},
+									xAxis : [
+										{
+											type : 'category',
+											show:true,
+											data : ['云南国企', '三七', '中医药', '消费', '消费', '大健康'],
+											axisTick: {
+												alignWithLabel: true,
+												show :false,
+											},
+											splitLine :{
+												show:false //不显示grad区域的分隔线
+											},
+											axisLine : { //不显示坐标轴轴线
+												show:false
+											},
+											axisLabel:{
+												fontSize : setFontSize(0.22)
+											}
+										}
+									],
+									yAxis : [
+										{
+											type : 'value',
+											splitNumber:20,
+											offset:0, //偏移
+											axisLabel:{
+												formatter: function (value) {
+													return value ==0 ? 0: value + '%';
+												},
+												//color : '#3C3C3C',
+												textStyle: {
+													color: function (value, index) {
+														return index % 4 == 0 ? '#3C3C3C' : 'transparent';
+													}
+												},
+												fontSize : setFontSize(0.22)
+											},
+											axisLine : { //不显示坐标轴轴线
+												show:true,
+												lineStyle:{
+													color:'#BBBBBB'
+												}
+											},
+											axisTick:{show:false},
+											splitLine :{
+												show:false //不显示grad区域的分隔线
+											}
+										},
+										{
+											type: 'value',
+											offset:($(window).width()*2 * -307)/750,
+											min: 0,
+											max: 0.8,
+											interval: 0.04,
+											axisLabel: {show:false},
+											splitLine: { show: false},
+											axisTick:{
+												show :true,
+												inside:false, //刻度朝里
+												length:3,
+												lineStyle:{
+													color:'#BBBBBB',
+													width:1,
+												}
+											},
+											axisLine: {show: false}
+										},
+										{
+											type: 'value',
+											offset:($(window).width()*2 * -307)/750,
+											min: 0,
+											max: 0.8,
+											interval: 0.2,
+											axisLabel: {show:false},
+											splitLine: { show: false},
+											axisTick:{
+												show :true,
+												inside:false, //刻度朝里
+												length:6,
+												lineStyle:{
+													color:'#BBBBBB',
+													width:2,
+												}
+											},
+											axisLine: {show: false}
+										}
+
+									],
+									series : [
+										{ // For shadow
+											type: 'bar',
+											itemStyle: {
+												normal: {color: '#F2F3F6'}
+											},
+											barGap:'-100%',
+											barCategoryGap:'40%',
+											data: dataShadow,
+											animation: false,
+										},
+										{
+											type: 'bar',
+											barWidth:'30%',
+											itemStyle: {
+												normal: {
+													color: '#FF6B59'
+												}
+											},
+											data: data1
+										},
+										{
+											type: 'bar',
+											itemStyle: {
+												normal: {
+													color: '#81ADFF'
+												}
+											},
+											data: data2
+										}
+									]
+								};
+								myChart.setOption(option);
+							}
+						})
+					</script>
+				</div>
+			</div>
+			<!--主题异动-->
+			<div class="general">
+				<span class="generalHeading">主题异动</span>
+				<span class="generalintroduce">最近一周该股相关主题异动2732次异动比较频繁，超过市场整体水平，建议关注。</span>
+			</div>
+		</section>
+		<div class="supernatant"></div>
+	</body>
+</html>
+
