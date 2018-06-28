@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,15 +6,30 @@
     <meta name="renderer" content="webkit">
     <title>牛币记录</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+    		(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = clientWidth / 7.5 + 'px';
+        };
+    // Abort if browser does not support addEventListener
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    </script>
     <script src="js/base.js"></script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
 <header class="headerBar">
-    <span><a href="index.html" class="goBack"></a></span>
+    <span><a href="index.html" class="goBack blackarrow"></a></span>
     <span class="title">牛币记录</span>
-    <span class="explain" id="explain" isShow='true'>筛选</span>
+    <span class="explain" id="explain" isShow='true' style="font-size: 0.32rem">筛选</span>
 </header>
 <div class="filtrateWrap">
     <ul class="filtrate">
@@ -27,22 +42,25 @@
     <!--<div class="dataTime">2017-06</div>
     <ul class="inviteRecord">
         <li>
-            <div class="inviteTop">&lt;!&ndash;clearfix&ndash;&gt;
+            <div class="inviteTop">
                 <span>2017年6月31日</span>
-                <span>+500牛币</span>
+                <span class="currentNumber">+500牛币</span>
             </div>
             <span class="inviteBot">注册成功</span>
         </li>
-    </ul>  -->
+    </ul>-->
 </section>
 <script>
     $(function(){
-        $('.filtrateWrap').css({ //筛选定位
-            top : $('.headerBar').height() + 8
-        })
-        $('#explain').click(function(){ //显示隐藏切换
-            $('.filtrateWrap').slideToggle();
-        })
+    	login(function(){
+
+            $('.filtrateWrap').css({ //筛选定位
+                top : $('.headerBar').height() + 26
+            });
+            $('#explain').click(function(){ //显示隐藏切换
+                $('.filtrateWrap').slideToggle();
+            })
+
 
         getRecord(0,1,23)  //默认全部记录
         $('#filtAll').click(function () {
@@ -54,6 +72,7 @@
         $('#filtUse').click(function () {
             getRecord(2,1,23)  //默认全部记录
         })
+  	});
     })
 </script>
 </body>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,13 +6,28 @@
     <meta name="renderer" content="webkit">
     <title>牛币计划-</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+    	(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = clientWidth / 7.5 + 'px';
+        };
+    // Abort if browser does not support addEventListener
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+    </script>
     <script src="js/base.js"></script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
 <header class="headerBar">
-    <span><a href="inivte.html" class="goBack"></a></span>
+    <span><a href="inivte.html" class="goBack blackarrow"></a></span>
     <span class="title">海纳牛牛</span>
     <span class="explain"></span>
 </header>
@@ -21,7 +36,7 @@
     <div class="successImg1"></div>
     <div class="successImg2"></div>
     <a href="javascript:void(0)" class="downLoad" id="downLoad">点击下载</a>
-    <span class="copyright">海纳财富科技有限公司</span>
+    <div class="copyright">海纳财富科技有限公司</div>
 </section>
 <script>
     $(function(){

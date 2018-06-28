@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,27 +6,42 @@
     <meta name="renderer" content="webkit">
     <title>牛币记录</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+    	(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = clientWidth / 7.5 + 'px';
+        };
+    // Abort if browser does not support addEventListener
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+   })(document, window);
+    </script>
     <script src="js/base.js"></script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
 <header class="headerBar">
-    <span><a href="inivte.html" class="goBack"></a></span>
+    <span><a href="inivte.html" class="goBack blackarrow"></a></span>
     <span class="title">邀请记录</span>
     <span class="explain"></span>
 </header>
 <section class="recordList">
-    <!--<div class="dataTime">2017-06</div>
+    <div class="dataTime">2017-06</div>
     <ul class="inviteRecord">
-        <li>
-            <div class="inviteTop">&lt;!&ndash;clearfix&ndash;&gt;
+        <!--<li>
+            <div class="inviteTop">
                 <span>2017年6月31日</span>
-                <span>+500牛币</span>
+                <span class="currentNumber">+500牛币</span>
             </div>
             <span class="inviteBot">注册成功</span>
-        </li>
-    </ul>  -->
+        </li>-->
+    </ul>
 </section>
 <script>
     $(function(){

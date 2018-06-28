@@ -5,24 +5,40 @@
     <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="renderer" content="webkit">
     <title>牛币计划</title>
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/base.js"></script>
+ 
+    <script>
+    	(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = clientWidth / 7.5 + 'px';
+        };
+    // Abort if browser does not support addEventListener
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+    </script>
+       <script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/base.js"></script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
 <header class="headerBar whiteStyle">
-    <span><a href="javascript:void(0);" class="goBack"></a></span>
+    <span><a href="#" class="goBack whiteArrow"></a></span>
     <span class="title">牛币</span>
     <span class="explain"></span>
 </header>
 <section class="header">
-    <h1 class="HeadNum"><small>个</small></h1>
+    <h1 class="HeadNum HeadNums"><small>个</small></h1>
     <span class="HeadIcon">获得牛币<i></i></span>
 </section>
 <section class="menu_record">
-    <a href="cattleRecord.html"><em class="icon_record"></em>牛币记录</a>
-    <a href="help.html"><em class="icon_help"></em>使用帮助</a>
+    <a href="cattleRecord.html"><em class="icon_record"></em><em>牛币记录</em></a>
+    <a href="help.html"><em class="icon_help"></em><em>使用帮助</em></a>
 </section>
 <ul class="listView">
    <li>
@@ -33,18 +49,24 @@
     <li>
         <span>注册有礼</span>
         <em class="grey">邀请好友注册成功既获500牛币</em>
-        <a href="#" class="invite multicolour">马上邀请</a>
+        <a href="inivte.html" class="invite multicolour">马上邀请</a>
     </li>
     <li>
         <span>注册有礼</span>
         <em class="grey">邀请还有购买服务也有牛币拿</em>
-        <a href="#" class="invite multicolour">马上邀请</a>
+        <a href="inivte.html" class="invite multicolour">马上邀请</a>
     </li>
 </ul>
 </body>
+
 <script>
-    $(function(){
-        getTotal();
-    })
+//  $(function(){
+//      getTotal();
+//  })
+
+
+ $('.goBack').click(function(){
+            backtofinish();
+        })
 </script>
 </html>

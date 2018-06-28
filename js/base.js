@@ -1,55 +1,71 @@
-(function (doc, win) {
-    var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function () {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            docEl.style.fontSize = clientWidth / 7.5 + 'px';
-        };
-    // Abort if browser does not support addEventListener
-    if (!doc.addEventListener) return;
-    win.addEventListener(resizeEvt, recalc, false);
-    doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
-var httpApi="http://currency-dev.0606.com.cn/";
-var httpApi2 = 'http://advisor-dev.0606.com.cn:5000/';
-var httpApi3 = 'http://123.56.30.141:9600/';
 
+var httpApi="http://currency-dev.0606.com.cn/";
+var httpApi2 = 'http://advisor-test.0606.com.cn:5000/';
+var httpApi3 = 'http://123.56.30.141:9600/';
+var httpApi4='http://currency-test.0606.com.cn/';
 //var Http='http://101.201.237.183:5700/
 //生产环境
 //var Http = 'http://101.201.237.183:8000/';
 //测试环境
 var Http='http://buss.0606.com.cn:8080/';
+ window.userInfo={};
 //正式环境
-var accessToken = 'a4c05812bb817cf2f53ebc25a9846b36';
+//document.write(111);
 $(function() {
-    if (typeof window.webkit != 'undefined') {
+
+  	login(function(){
+  		getTotal();
+  	});
+
+})
+
+function login(callback){
+	window.refreshtoken=function(result){
+		delete window.refreshtoken;
+		try{
+			result = result;
+		}catch(e){
+			console.log('出错！');
+		}
+		
+		if(result){
+			window.userInfo.access_token=result;
+		}
+		
+		if(callback){
+			callback();
+		}
+		
+			
+	}
+	
+	return nativeFunLogin();
+}
+
+function nativeFunLogin(){
+	 if (typeof window.webkit != 'undefined') {
         window.webkit.messageHandlers.jsCallNative.postMessage({"nativeCallJS":"refreshtoken"});
     }else if(/Android/i.test(window.navigator.userAgent)) {				       //android
         window.haina.pushEvent('{"nativecalljs":"refreshtoken"}');
     }
-})
+}
 
-/*function refreshtoken(token){
-    accessToken =  token;
-}*/
-
-
+//document.write(accessToken);
 function getTotal(){  //获取牛币总数
     $.ajax({
         type: "get",
-        url: httpApi + 'currency/info.jspa?access_token=' + accessToken,
+        url: httpApi4 + 'currency/info.jspa?access_token='+userInfo.access_token,
         dataType: 'json',
         success: function (datas) {
             if(datas.code == 200){
                 var data = datas.data;
-                $('.HeadNum').html(data.total + '<small>个</small>'); //牛币总数
-                $('.HeadNum').html(data.inviteReAmount + data.inviteBuyAmount + '<small>个</small>');
+                $('.HeadNums').html(data.total + '<small>个</small>'); //牛币总数
+                $('.HeadNuma').html('<em>' + data.inviteReAmount + data.inviteBuyAmount + '</em>' + '<small>个</small>');
                 $('.inviteFirend').html(data.inviteReTimes);
                 $('.invitetake').html(data.inviteBuyTimes);
-
+                 
             }else{
-                console.log(' ')
+              
             }
         },
         error: function (e) {
@@ -68,7 +84,7 @@ function getUrlParam(name) {  //获取url的code
 function getRecord(filtter,page,pageSize) {
     $.ajax({  //牛币记录
         type: "get",
-        url: httpApi + 'currency/record.jspa?access_token=' + accessToken + '&type='+ filtter +'&pageNo='+ page +'&pageSize='+ pageSize ,
+        url: httpApi4+ 'currency/record.jspa?access_token=' + userInfo.access_token + '&type='+ filtter +'&pageNo='+ page +'&pageSize='+ pageSize ,
         dataType: 'json',
         success: function (datas) {
             console.log(datas)
@@ -349,33 +365,66 @@ function iosEdition(){
     return ver;
 }
 
-//调用分享
 
-//分享
-function share(){
+//分享微信
+function shareWeiXin(){
     var shareValue = {
-        "title": "超级战队：三步捕获牛股 金牛回头战法4天获利31.5%!",
-        "desc": "操盘大师战队利用金牛回头战法捕获澄天伟业、元隆雅图等牛股，4天获利超过3成!",
-        "imageUrl": HttpLink + "images/zjzd.jpg",
+        "title": "牛币分享微信",
+        "desc": "牛币分享微信11111111",
+        "imageUrl": "http://dev.0606.com.cn:8085/cattleCurrency/images/close.png",
         "url": window.location.href + '&from=share',
         "site": "海纳牛牛",
-        "siteUrl": window.location.href + '&from=share',
-        "titleUrl": window.location.href + '&from=share',
+        "siteUrl": window.location.href + '?from=share',
+        "titleUrl": window.location.href + '?from=share',
         "shareType": "all"
     };
     if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){
         console.log("ios")
         //ios
-        window.webkit.messageHandlers.jsCallNative.postMessage({"nativeCallJS":"share","sharevalue":shareValue});
+        window.webkit.messageHandlers.jsCallNative.postMessage({"nativeCallJS":"shareWeiXin","sharevalue":shareValue});
     }else {
         //android
         var value= JSON.stringify(shareValue);
-        window.haina.pushEvent('{"nativecalljs":"share", "sharevalue":'+value+'}');
+        window.haina.pushEvent('{"nativecalljs":"shareWeiXin", "sharevalue":'+value+'}');
     }
 
 }
+//分享朋友圈
+function shareFriends(){
+    var shareValue = {
+        "title": "牛币分享微信朋友圈",
+        "desc": "牛币分享微信朋友圈11111111",
+        "imageUrl": "http://dev.0606.com.cn:8085/cattleCurrency/images/close.png",
+        "url": window.location.href + '&from=share',
+        "site": "海纳牛牛",
+        "siteUrl": window.location.href + '?from=share',
+        "titleUrl": window.location.href + '?from=share',
+        "shareType": "all"
+    };
+    if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){
+        console.log("ios")
+        //ios
+        window.webkit.messageHandlers.jsCallNative.postMessage({"nativeCallJS":"shareFriends","sharevalue":shareValue});
+    }else {
+        //android
+        var value= JSON.stringify(shareValue);
+        window.haina.pushEvent('{"nativecalljs":"shareFriends", "sharevalue":'+value+'}');
+    }
 
+}
+//返回上一级
 
+function backtofinish(){
+    if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){
+        console.log("ios")
+        //ios
+        window.webkit.messageHandlers.jsCallNative.postMessage({"nativeCallJS":"backtofinish"});
+    }else {
+        //android
+        window.haina.pushEvent('{"nativecalljs":"backtofinish"}');
+    }
+
+}
 
 
 

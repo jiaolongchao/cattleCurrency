@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" style="background: #fff;">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,21 @@
     <meta name="renderer" content="webkit">
     <title>牛币计划-注册</title>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+    	(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = clientWidth / 7.5 + 'px';
+        };
+    // Abort if browser does not support addEventListener
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+    </script>
     <script src="js/layer/layer.js"></script>
     <script src="js/base.js"></script>
     <link rel="stylesheet" href="css/base.css">
@@ -14,28 +29,36 @@
 </head>
 <body style="background: #fff;">
 <header class="headerBar">
-    <span><a href="javascript:void(0);" class="goBack"></a></span>
+    <span><a href="javascript:void(0);" class="goBack blackarrow"></a></span>
     <span class="title">海纳牛牛</span>
     <span class="explain"></span>
 </header>
-<section class="loginHeader">
-    <div class="loginTitle"></div>
-    <span class="loginsmallTitle">好友邀您与资深投资顾问一对一畅谈股市</span>
-</section>
-<section class="loginCont">
-    <span class="loginContText">输入手机号验证成功，下载APP领取牛股</span>
-    <ul class="loginContList">
-        <li><input type="tel" maxlength="11" name="phone" id="phone" class="phone" placeholder="请输入手机号"></li>
-        <li>
-            <input type="tel"  maxlength="6" name="codeNum" id="codeNum" class="codeNum" placeholder="请输入验证码">
-            <a class="btncodeNum again" id="getRecode" onclick="getRecode()"><font id="phonetext">获取验证码</font><font id="phoneCodeSent" color="#999"></font></a>
-        </li>
-    </ul>
-    <span class="protocol"><i></i><em>阅读并确认</em><a href="javascript:void(0)" style="color: #000">《用户注册协议》</a></span>
-    <a href="javascript:void(0)" class="confirmblut disable" id="confirmblut">确认</a>
-</section>
+<div class="registerPanel">
+    <section class="loginHeader">
+        <div class="loginTitle"></div>
+        <span class="loginsmallTitle">好友邀您与资深投资顾问一对一畅谈股市</span>
+    </section>
+    <section class="loginCont">
+        <span class="loginContText">输入手机号验证成功，下载APP领取牛股</span>
+        <ul class="loginContList">
+            <li><input type="tel" maxlength="11" name="phone" id="phone" class="phone" placeholder="请输入手机号"></li>
+            <li>
+                <input type="tel"  maxlength="6" name="codeNum" id="codeNum" class="codeNum" placeholder="请输入验证码">
+                <a class="btncodeNum again" id="getRecode" onclick="getRecode()"><font id="phonetext">获取验证码</font><font id="phoneCodeSent" color="#999"></font></a>
+            </li>
+        </ul>
+        <span class="protocol"><i></i><em style="display: inline-block; vertical-align: middle;">阅读并确认</em><a href="javascript:void(0)"  style="display: inline-block; vertical-align: middle;">《用户注册协议》</a></span>
+        <a href="javascript:void(0)" class="confirmblut disable" id="confirmblut">确认</a>
+    </section>
+    <div class="copyright" style="position: absolute; bottom: 0.4rem; text-align: center;">海纳财富科技有限公司</div>
+</div>
 <script>
     $(function(){
+        $('.registerPanel').css({
+                'height':$(window).height() - $('.headerBar').height(),
+                'position':'relative'
+        })
+
         $("#phone").on('keyup', function () {
             check_phone_keyup($(this));
         })
@@ -103,5 +126,15 @@
 
     })
 </script>
+<style>
+    .layermbox0 .layermchild{ max-width: 70%!important;}
+    .layermchild{ border-radius: 0.1rem;}
+    .layermcont{ padding: 0.4rem 0.6rem!important;}
+    .layermcont,.layermbtn span{ font-size: 0.32rem!important;}
+    .layermbtn {
+        height: 0.88rem!important;
+        line-height: 0.88rem!important;
+    }
+</style>
 </body>
 </html>
